@@ -1,0 +1,53 @@
+1. 
+- Under the following link you can find the unedited "original" network.
+there is also explained how the folder structure etc. has to be done. 
+- As input it takes pictures from Domain A (Source domain) and about as many pictures from Domain B (Target domain). 
+    
+https://github.com/xhujoy/CycleGAN-tensorflow
+
+You have to make sure that you have the "original picture" from domain A 
+mapped output image. (This may be a lot of work)
+
+2.
+The following modules are required for the following processing:
+- Mean Image of the output of 1. as well as the Mean Image of the domain A
+
+- Masks for the interesting objects (Pedestrians ...) from Domain A
+- The masks have to be assigned to the source domain and the mapped images 
+      so that you can insert the objects back into the mapped images.
+- Original Source Domain images to extract the interesting objects
+
+
+3. Faster R-CNN is I think clear, right?
+Data sets
+There is the problem that I have not saved all the records, there are
+but data records from intermediate steps. I leave those, with which I imagine 
+can be interesting for you in the zip file:
+- for the annotations
+    to create the tfrecords
+- pure mapped city
+    JPEGImages_city23
+    JPEGImages_city37
+- mixed dataset with unreal persons (Here are also the pictures in it, which I call
+"final result". Unfortunately, I lack the pure data set for it.
+    JPEGImages_mixedorigpersons
+
+
+Example python scripts
+-----------------------------------------------------------------------------------
+1) process_images.py
+    - There is programmed exemplarily, the persons with the mask from the 
+    Original image can be placed in the mapped image (not with 100% intensity), 
+    because then the result would be worse) etc.. (processing pipeline)
+2) map_persons_to_mapped_city23.py
+    - Pure mapping of people into mapped images
+3) tf_record_builder.py
+    - This can be used to create tfrecords
+4) evaluation_stuff.py
+    - This can be used to create among other things the Mean Images
+5) mean_diff.py
+    - I have mapped the images with the original images with this script 
+    are assigned to the It calculates the similarity of images.
+-----------------------------------------------------------------------------------
+
+I think those were the main scripts

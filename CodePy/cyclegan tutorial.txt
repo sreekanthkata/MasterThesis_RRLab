@@ -1,0 +1,50 @@
+1. 
+- Unter folgendem link findet man das unbearbeitete "original" Netzwerk.
+dort ist auch erklärt wie die Ordnerstruktur etc. gemacht werden muss. 
+- Als Input nimmt es Bilder aus Domain A (Source domain) und etwa genausoviele Bilder aus Domain B (Target domain). 
+
+https://github.com/xhujoy/CycleGAN-tensorflow
+
+Dabei muss man schauen, dass man das "original bild" aus Domain A dem 
+gemappten Output Bild zuordnen kann. (Ist eventuell aufwändig)
+
+2.
+Für die folgende Bearbeitung werden folgende Bausteine benötigt:
+- Mean Image des Outputs von 1. sowie das Mean Image der Domain A
+- Masken für die interessanten Objekte (Pedestrians ...) aus Domain A
+- Die Masken muss man der Source domain und den gemappten Bildern zuordnen 
+können, damit man die Objekte wieder in die gemappten Bilder einfügen kann.
+- Original Source Domain Bilder zum extrahieren der interessanten Objekte
+
+3. Faster R-CNN ist ja glaube ich klar oder?
+
+Datensätze
+Da gibt es das Problem, dass ich nicht alle Datensätze gespeichert habe, es gibt
+aber Datensätze aus Zwischenschritten. Ich lasse die, bei denen ich mir vorstellen 
+kann, dass sie für dich interessant sind im zip file:
+- für die Annotations
+    zum Erzeugen der tfrecords
+- rein gemappte city
+    JPEGImages_city23
+    JPEGImages_city37
+- gemischter Datensatz mit unreal persons (Hier sind auch die Bilder drin, die ich als
+"Endresultat" vorgestellt habe. Leider fehlt mir der reine Datensatz dafür.
+    JPEGImages_mixedorigpersons
+
+
+Beispielpythonskripte
+process_images.py
+    - Dort ist beispielhaft programmiert, die Personen mit der Maske aus dem 
+    Originalbild in das gemappte Bild gesetzt werden (nicht mit 100% intensität, 
+    weil dann das Ergebnis schlechter würde) usw.. (Bearbeitungspipeline)
+map_persons_to_mapped_city23.py
+    - Reines Mapping von Personen in gemappte Bilder
+tf_record_builder.py
+    - Damit können tfrecords erzeugt werden
+evaluation_stuff.py
+    - Damit können unter anderem die Mean Images erzeugt werden
+mean_diff.py
+    - Ich habe die gemappten Bilder mit den Originalbildern mit diesem Skript 
+    zugeordnet. Es berechnet die Ähnlichkeit von Bildern.
+
+Ich denke das waren die Hauptskripte
